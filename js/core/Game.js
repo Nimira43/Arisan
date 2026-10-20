@@ -10,6 +10,7 @@ export class Game {
   init() {
     this.resizeCanvas()
     window.addEventListener('resize', () => this.resizeCanvas())
+    requestAnimationFrame((t) => this.gameLoop(t))
   }
 
   resizeCanvas() {
@@ -35,5 +36,15 @@ export class Game {
     this.canvas.style.width = w + 'px'
     this.canvas.style.height = h + 'px'
     this.canvas.style.margin = `{margin}px`
+  }
+
+  gameLoop(timestamp) {
+    this.render()
+    requestAnimationFrame((t) => this.gameLoop(t))
+  }
+
+  render() {
+    this.ctx.fillStyle = '#0f3460'
+    this.ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT)
   }
 }
