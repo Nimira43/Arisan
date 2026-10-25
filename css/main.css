@@ -1,10 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Bytesized&family=VT323&display=swap');
 
 :root {
-  --dark-1: #1a1a2e;
-  --dark-2: #2e2e3e;
-  --light-1: #eee;
-  --bg: #00005f;
+  --dark-1: #111;
+  --dark-2: #222;
+  --light-1: #fffcfa;
+  --bg: #000;
+  --orange-1: #ff4500;
+  --orange-2: #c23502;
+  --shadow: rgba(255, 68, 0, 0.2);
+  --border-radius: 3px;
+  --transitioning: all 0.5s ease-in-out; 
 }
 
 * {
@@ -21,12 +26,7 @@ body {
 }
 
 .logo-font {
-  position: absolute;
-  top: 15px;
-  left: 30px;
   font-family: 'Bytesized', sans-serif;
-  font-size: 2rem;
-  color: var(--light-1);
 }
 
 #gameContainer {
@@ -42,4 +42,44 @@ body {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   background: var(--dark-1);
+}
+
+.ui-panel {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+  border: 3px solid var(--orange-1);
+  padding: 30px;
+  border-radius: var(--border-radius);
+  text-align: center;
+  box-shadow: 0 0 30px var(--shadow);
+  z-index: 1000;
+  display: none; 
+}
+
+.ui-panel.active {
+  display: block;
+}
+
+.ui-panel h1 {
+  color: var(--light-1);
+  margin-bottom: 20px;
+  font-size: 40px;
+}
+
+button {
+  background: var(--orange-1);
+  color: var(--light-1);
+  border: none;
+  padding: 12px 24px;
+  margin: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: inherit;
+  border-radius: var(--border-radius);
+  transition: var(--transitioning);
+}
+
+button:hover {
+  background-color: var(--orange-2);
 }
