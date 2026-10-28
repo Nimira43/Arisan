@@ -46,7 +46,7 @@ body {
 
 .ui-panel {
   position: absolute;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
   border: 3px solid var(--orange-1);
   padding: 30px;
@@ -57,6 +57,10 @@ body {
   display: none; 
 }
 
+#loadingScreen {
+  padding: 50px;
+}
+
 .ui-panel.active {
   display: block;
 }
@@ -65,6 +69,12 @@ body {
   color: var(--light-1);
   margin-bottom: 20px;
   font-size: 40px;
+}
+
+.ui-panel h2 {
+  color: var(--light-1);
+  margin-bottom: 20px;
+  font-size: 35px;
 }
 
 button {
@@ -82,4 +92,17 @@ button {
 
 button:hover {
   background-color: var(--orange-2);
+}
+
+#timer {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 40px;
+  color: var(--light-1);
+  font-family: inherit;
+  z-index: 1000;
+  display: none;
+  pointer-events: none;
 }

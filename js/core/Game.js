@@ -1,7 +1,9 @@
-import { GAME_WIDTH, GAME_HEIGHT } from './constants.js'
+import { GAME_WIDTH, GAME_HEIGHT, ASPECT_RATIO, CANVAS_MARGIN } from './constants.js'
 import { RenderSystem } from '../systems/RenderSystem.js'
 import { Player } from '../entities/Player.js'
 import { ImageManager } from '../managers/ImageManager.js'
+import { AudioManager } from '../managers/AuditoManager.js'
+import { UIManager } from '../managers/UIManager.js'
 
 export class Game {
   constructor() {
