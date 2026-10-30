@@ -34,10 +34,10 @@ export class AudioManager {
 
   async loadAll() {
     await Promise.all([
-      this.load('pause', '../../audio/pause.ogg'),
-      this.load('unpause', '../../audio/unpause.ogg'),
-      this.load('button_hover', '../../audio/button_hover.ogg'),
-      this.load('button_click', '../../audio/button_click.ogg')
+      this.load('pause', './audio/pause.ogg'),
+      this.load('unpause', './audio/unpause.ogg'),
+      this.load('button_hover', './audio/button_hover.ogg'),
+      this.load('button_click', './audio/button_click.ogg')
     ])
   }
 }

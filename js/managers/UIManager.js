@@ -13,7 +13,7 @@ export class UIManager {
     document.getElementById('resumeBtn').addEventListener('click', () => this.game.resume())
     document.getElementById('quitBtn').addEventListener('click', () => this.game.returnToMenu())
     document.querySelectorAll('button').forEach(btn => {
-      btn.addEventListener('mouseenter', () => this.game.audioManager.play('button-hover'))
+      btn.addEventListener('mouseenter', () => this.game.audioManager.play('button_hover'))
     })
   }
 

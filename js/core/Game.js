@@ -106,7 +106,7 @@ export class Game {
   pause() {
     this.audioManager.play('pause')
     this.state = 'paused'
-    this.uiManager.showPanel('pausedMenu')
+    this.uiManager.showPanel('pauseMenu')
   }
   
   resume() {
@@ -115,7 +115,7 @@ export class Game {
     this.uiManager.hideAllPanels()
   }
   
-  returnToGame() {
+  returnToMenu() {
     this.audioManager.play('button_click')
     this.state = 'menu'
     this.uiManager.hideAllPanels()
