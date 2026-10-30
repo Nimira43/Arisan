@@ -21,7 +21,7 @@ export class UIManager {
     [this.mainMenuEl, this.pauseMenuEl, this.loadingScreenEl].forEach(p => p.classList.remove('active'))
   }
 
-  showPanel() {
+  showPanel(panelId) {
     this.hideAllPanels()
     this[`${panelId}El`]?.classList.add('active')
   }
@@ -37,7 +37,7 @@ export class UIManager {
   updateTimer(time) {
     if (!this.timerEl) return
     const mins = Math.floor(time / 60)
-    const secs = Math.floor(time / 60)
+    const secs = Math.floor(time % 60)
     this.timerEl.textContent = `${mins}:${String(secs).padStart(2,'0')}`
   }
 

@@ -4,19 +4,22 @@ export class ImageManager {
   }
 
   load(name, path) {
-    const img = new Image()
-    img.src = path
-
-    this.images[name] = { img, loaded:false }
-    
-    img.onload = () => {
-      this.images[name].loaded = true
-      console.log(`Image loaded: ${name}`)
-    }
-
-    img.onerror = () => {
-      console.log(`Image fail: ${name} - using fallback.`)
-    }
+    return new Promise((resolve) => {
+      const img = new Image()
+      img.src = path
+      
+      this.images[name] = { img, loaded:false }
+      
+      img.onload = () => {
+        this.images[name].loaded = true
+        resolve()
+      }
+      
+      img.onerror = () => {
+        console.log(`Image fail: ${name} - using fallback.`)
+        resolve()
+      }
+    })
   }
 
   get(name) {
@@ -25,7 +28,10 @@ export class ImageManager {
       : null
   }
 
-  loadAll() {
-    this.load('player', './images/player.png')
+  async loadAll() {
+    await Promise.all([
+      this.load('player', './images/player.png')
+    ])
+    await new Promise(resolve => setTimeout(resolve, 2000))
   }
 }

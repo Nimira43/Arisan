@@ -8,11 +8,15 @@ export class RenderSystem {
     this.imageManager = imageManager
   }
 
-  render(player) {
-    this.ctx.fillStyle = '#0f3460'
-    this.ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT)
-    this.renderGrid()
-    this.renderPlayer(player)
+  render(state, player) {
+    if (state === 'menu') {
+      this.renderMenuBackground()
+    } else {
+      this.ctx.fillStyle = '#0f3460'
+      this.ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT)
+      this.renderGrid()
+      this.renderPlayer(player)
+    }
   }
 
   renderPlayer(player) {
@@ -44,6 +48,11 @@ export class RenderSystem {
     }
     
     this.ctx.stroke()
+  }
+
+  renderMenuBackground() {
+    this.ctx.fillStyle = '#0f3460'
+    this.ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT)
   }
 }
 

@@ -1,12 +1,22 @@
 import { GAME_WIDTH, GAME_HEIGHT } from '../core/constants.js'
+import { playerData } from '../data/playerData.js'
 
 export class Player {
   constructor() {
-    this.width = 64
-    this.height = 64
+    this.width = playerData.width
+    this.height = playerData.height
+
     this.x = (GAME_WIDTH - this.width) / 2
     this.y = (GAME_HEIGHT - this.height) / 2
-    this.speed = 300
+ 
+    this.speed = playerData.speed
+    this.speedMultiplier = 1
+  }
+
+  reset() {
+    this.x = (GAME_WIDTH - this.width) / 2
+    this.y = (GAME_HEIGHT - this.height) / 2
+    this.speed = playerData.speed
     this.speedMultiplier = 1
   }
 
