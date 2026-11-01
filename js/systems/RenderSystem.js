@@ -1,4 +1,4 @@
-import { GAME_WIDTH, GAME_HEIGHT, GRID_SIZE } from '../core/constants.js'
+import { GAME_WIDTH, GAME_HEIGHT, GRID_SIZE, GAME_STATES } from '../core/constants.js'
 
 export class RenderSystem {
   constructor(canvas, imageManager) {
@@ -8,13 +8,14 @@ export class RenderSystem {
     this.imageManager = imageManager
   }
 
-  render(state, player) {
-    if (state === 'menu') {
+  render(state, player, enemies = []) {
+    if (state === GAME_STATES.MENU) {
       this.renderMenuBackground()
     } else {
       this.ctx.fillStyle = '#0f3460'
       this.ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT)
       this.renderGrid()
+      this.renderEnemies(enemies)
       this.renderPlayer(player)
     }
   }
@@ -29,6 +30,30 @@ export class RenderSystem {
       this.ctx.fillRect(player.x, player.y, player.width, player.height)
       this.ctx.strokeStyle = '#fff'
       this.ctx.strokeRect(player.x, player.y, player.width, player.height)
+    }
+  }
+
+  renderEnemies(enemies) {
+    for (let i = 0; i < enemies.length; i++) {
+      const enemy = enemies[i]
+      const enemyImage = this.imageManager.get(enemy.data.image)
+
+      if (enemyImage) {
+        this.ctx.save()
+
+        if (enemy.facingLeft) {
+          this.ctx.translate(enemy.x + enemy.width, enemy.y)
+          this.ctx.scale(-1, 1)
+          this.ctx.drawImage(enemyImage, 0, 0, enemy.width, enemy.height)
+        } else {
+          this.ctx.drawImage(enemyImage, enemy.x, enemy.y, enemy.width, enemy.height)
+        }
+
+        this.ctx.restore() 
+      } else {
+        this.ctx.fillStyle = enemy.data.colour
+        this.ctx.fillRect(enemy.x, enemy.y, enemy.width, enemyData.height)
+      }
     }
   }
 

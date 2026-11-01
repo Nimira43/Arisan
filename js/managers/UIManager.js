@@ -1,19 +1,25 @@
+import { EVENTS } from '../core/constants.js'
+
 export class UIManager {
-  constructor(game) {
-    this.game = game
+  constructor(events) {
+    this.events = events
     this.timerEl = document.getElementById('timer')
     this.mainMenuEl = document.getElementById('mainMenu')
     this.pauseMenuEl = document.getElementById('pauseMenu')
     this.loadingScreenEl = document.getElementById('loadingScreen')
+    this.playBtnEl = document.getElementById('playBtn')
+    this.resumeBtnEl = document.getElementById('resumeBtn')
+    this.quitBtnEl = document.getElementById('quitBtn')
     this.setupEventListeners()
   }
 
   setupEventListeners() {
-    document.getElementById('playBtn').addEventListener('click', () => this.game.startGame())
-    document.getElementById('resumeBtn').addEventListener('click', () => this.game.resume())
-    document.getElementById('quitBtn').addEventListener('click', () => this.game.returnToMenu())
-    document.querySelectorAll('button').forEach(btn => {
-      btn.addEventListener('mouseenter', () => this.game.audioManager.play('button_hover'))
+    this.playBtnEl?.addEventListener('click', () => this.events.emit(EVENTS.GAME_START))
+    this.resumeBtnEl?.addEventListener('click', () => this.events.emit(EVENTS.GAME_RESUME))
+    this.quitBtnEl?.addEventListener('click', () => this.events.emit(EVENTS.GAME_RETURN_TO_MENU));
+        
+   [this.playBtnEl, this.resumeBtnEl, this.quitBtnEl].forEach(btn => {
+      btn?.addEventListener('mouseenter', () => this.events.emit(EVENTS.SOUND, 'button_hover'))
     })
   }
 

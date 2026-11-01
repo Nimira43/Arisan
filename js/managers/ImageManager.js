@@ -12,6 +12,7 @@ export class ImageManager {
       
       img.onload = () => {
         this.images[name].loaded = true
+        console.log(`[DEV] Image loaded: ${name}`)
         resolve()
       }
       
@@ -30,8 +31,11 @@ export class ImageManager {
 
   async loadAll() {
     await Promise.all([
-      this.load('player', './images/player.png')
+      this.load('player', './images/player.png'),
+      this.load('enemy_drifter', './images/enemy_drifter.png'),
+      this.load('enemy_seeker', './images/enemy_seeker.png')
     ])
-    await new Promise(resolve => setTimeout(resolve, 2000))
+    const DEBUG_LOAD_DELAY = 1000
+    await new Promise(resolve => setTimeout(resolve, DEBUG_LOAD_DELAY))
   }
 }
