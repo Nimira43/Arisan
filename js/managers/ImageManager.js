@@ -1,3 +1,6 @@
+import { playerData } from '../data/playerData.js'
+import { enemyData } from '../data/enemyData.js'
+
 export class ImageManager {
   constructor() {
     this.images = {}
@@ -30,11 +33,20 @@ export class ImageManager {
   }
 
   async loadAll() {
-    await Promise.all([
-      this.load('player', './images/player.png'),
-      this.load('enemy_drifter', './images/enemy_drifter.png'),
-      this.load('enemy_seeker', './images/enemy_seeker.png')
-    ])
+    const imageEntries = [
+      ...Object.values(enemyData).map(e => (
+        {
+          name: e.image,
+          path: `./images/${e.image}.png`
+        })),
+        {
+          name: playerData.image,
+          path: `./images/${playerData.image}.png`
+        }
+    ]
+    await Promise.all(
+      imageEntries.map(({ name, path }) => this.load(name, path)
+    ))
     const DEBUG_LOAD_DELAY = 1000
     await new Promise(resolve => setTimeout(resolve, DEBUG_LOAD_DELAY))
   }

@@ -3,7 +3,9 @@ import { EVENTS } from '../core/constants.js'
 export class UIManager {
   constructor(events) {
     this.events = events
+    this.hudEl = document.getElementById('hud')
     this.timerEl = document.getElementById('timer')
+    this.healthBarFillEl = document.getElementById('healthBarFill')
     this.mainMenuEl = document.getElementById('mainMenu')
     this.pauseMenuEl = document.getElementById('pauseMenu')
     this.loadingScreenEl = document.getElementById('loadingScreen')
@@ -24,7 +26,7 @@ export class UIManager {
   }
 
   hideAllPanels() {
-    [this.mainMenuEl, this.pauseMenuEl, this.loadingScreenEl].forEach(p => p.classList.remove('active'))
+    [this.mainMenuEl, this.pauseMenuEl, this.loadingScreenEl].forEach(p => p?.classList.remove('active'))
   }
 
   showPanel(panelId) {
@@ -32,12 +34,12 @@ export class UIManager {
     this[`${panelId}El`]?.classList.add('active')
   }
 
-  showTimer() {
-    if (this.timerEl) this.timerEl.style.display = 'block'
+  showHUD() {
+    if (this.hudEl) this.hudEl.style.display = 'block'
   }
   
-  hideTimer() {
-    if (this.timerEl) this.timerEl.style.display = 'none'
+  hideHUD() {
+    if (this.hudEl) this.hudEl.style.display = 'none'
   }
 
   updateTimer(time) {
@@ -46,6 +48,4 @@ export class UIManager {
     const secs = Math.floor(time % 60)
     this.timerEl.textContent = `${mins}:${String(secs).padStart(2,'0')}`
   }
-
-  
 }

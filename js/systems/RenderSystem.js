@@ -52,7 +52,7 @@ export class RenderSystem {
         this.ctx.restore() 
       } else {
         this.ctx.fillStyle = enemy.data.colour
-        this.ctx.fillRect(enemy.x, enemy.y, enemy.width, enemyData.height)
+        this.ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height)
       }
     }
   }

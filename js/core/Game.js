@@ -106,7 +106,7 @@ export class Game {
     this.state = GAME_STATES.PLAYING
     this.uiManager.hideAllPanels()
     this.time = 0
-    this.uiManager.showTimer()
+    this.uiManager.showHUD()
   
     this.player.reset()
     this.enemyManager.reset()
@@ -131,7 +131,7 @@ export class Game {
     this.events.emit(EVENTS.SOUND, 'button_click')
     this.state = GAME_STATES.MENU
     this.uiManager.hideAllPanels()
-    this.uiManager.hideTimer()
+    this.uiManager.hideHUD()
     this.uiManager.showPanel('mainMenu')
   }
 
