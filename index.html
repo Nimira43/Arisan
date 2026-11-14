@@ -14,16 +14,10 @@
       <div id="timer">0:00</div>
       <div id="healthBarContainer">
         <div id="healthBarFill"></div>
-      </div>
-      </div>
-    <div 
-      id="mainMenu" 
-      class="ui-panel"
-    >
-      <h1>
-        Arisan
-      </h1>
-      <button id="playBtn">
+    </div>
+    <div id="mainMenu" class="ui-panel">
+      <h1>Arisan</h1>
+      <button data-action="start">
         Play
       </button>
       <div style="margin-top: 20px; font-size: 12px">
@@ -31,36 +25,39 @@
         <div>ESC - Pause</div>
       </div>
     </div>
-    <div
-      id="pauseMenu"
-      class="ui-panel"
-    >
-      <h2>
-        Paused
-      </h2>
-      <button id="resumeBtn">
+    <div id="pauseMenu" class="ui-panel">
+      <h2>Paused</h2>
+      <button data-action="resume">
         Resume
       </button>
-      <button id="quitBtn">
+      <button data-action="returnToMenu">
         Quit to Menu
       </button>
     </div>
-    <div 
-      id="loadingScreen" 
-      class="ui-panel active"
-    >
-      <h2>
-        Loading...
-      </h2>
-      <p>
-        Arisan is starting up
-      </p>
+    <div id="loadingScreen" class="ui-panel active">
+      <h2>Loading...</h2>
+      <p>Arisan is starting up</p>
+    </div>
+    <div id="gameOverMenu" class="ui-panel">
+      <h1>Game Over</h1>
+      <button data-action="start">
+        Play Again
+      </button>
+      <button data-action="returnToMenu">
+        Main Menu
+      </button>
+    </div>
+    <div id="missionCompleteMenu" class="ui-panel">
+      <h1>Mission Complete</h1>
+      <button data-action="start">
+        Play Again
+      </button>
+      <button data-action="returnToMenu">
+        Main Menu
+      </button>
     </div>
   </div>
-  <script 
-    type="module"
-    src="./js/main.js"
-  >
+  <script type="module" src="./js/main.js">
   </script>
 </body>
 </html>

@@ -126,7 +126,7 @@ button:hover {
   content: '';
   position: absolute;
   inset: 0;
-  transform: scaleX(0.9);
+  transform: scaleX(var(--health-pct, 1));
   transform-origin: left;
 }
 
@@ -152,13 +152,10 @@ button:hover {
 
 #timer {
   position: absolute;
-  top: 40px;
+  top: 70px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 40px;
   color: var(--light-1);
   font-family: inherit;
-  z-index: 1000;
-  display: none;
-  pointer-events: none;
 }

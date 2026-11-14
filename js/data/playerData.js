@@ -3,5 +3,12 @@ export const playerData = {
   height: 64,
   speed: 300,
   collisionRadius: 28,
-  image: 'player'
+  image: 'player',
+  maxHealth: 12,
+  invincibilityDuration: 2
+}
+
+export const missionData = {
+  surviveTime: 60,
+  killCount: 10
 }

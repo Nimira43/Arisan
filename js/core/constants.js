@@ -7,7 +7,9 @@ export const CANVAS_MARGIN = 15
 export const GAME_STATES = {
   MENU: 'menu',
   PLAYING: 'playing',
-  PAUSED: 'paused'
+  PAUSED: 'paused',
+  GAME_OVER: 'gameOver',
+  MISSION_COMPLETE: 'missionComplete'
 }
 
 export const ENEMY_DESPAWN_MARGIN = 200
@@ -19,5 +21,11 @@ export const EVENTS = {
   GAME_START: 'game:start',
   GAME_PAUSE: 'game:pause',
   GAME_RESUME: 'game:resume',
-  GAME_RETURN_TO_MENU: 'game:returnToMenu'
+  GAME_RETURN_TO_MENU: 'game:returnToMenu',
+  MISSION_COMPLETE: 'mission:complete',
+  PLAYER_DAMAGED: 'player:damaged',
+  PLAYER_DIED: 'player:died',
+  ENEMY_DAMAGED: 'enemy:damaged',
+  ENEMY_DIED: 'enemy:died',
+  ENEMY_KILLED_COUNT: 'enemy:killedCount',
 }
