@@ -9,24 +9,20 @@ export class UIManager {
     this.mainMenuEl = document.getElementById('mainMenu')
     this.pauseMenuEl = document.getElementById('pauseMenu')
     this.loadingScreenEl = document.getElementById('loadingScreen')
-    this.playBtnEl = document.getElementById('playBtn')
-    this.resumeBtnEl = document.getElementById('resumeBtn')
-    this.quitBtnEl = document.getElementById('quitBtn')
+    this.gameOverMenuEl = document.getElementById('gameOverMenu')
+    this.missionCompleteMenuEl = document.getElementById('missionCompleteMenu')
     this.setupEventListeners()
   }
 
   setupEventListeners() {
-    this.playBtnEl?.addEventListener('click', () => this.events.emit(EVENTS.GAME_START))
-    this.resumeBtnEl?.addEventListener('click', () => this.events.emit(EVENTS.GAME_RESUME))
-    this.quitBtnEl?.addEventListener('click', () => this.events.emit(EVENTS.GAME_RETURN_TO_MENU));
-        
-   [this.playBtnEl, this.resumeBtnEl, this.quitBtnEl].forEach(btn => {
-      btn?.addEventListener('mouseenter', () => this.events.emit(EVENTS.SOUND, 'button_hover'))
-    })
+    document.querySelectorAll("[data-action='start']").forEach(btn => btn.addEventListener('click', () => this.events.emit(EVENTS.GAME_START)))
+    document.querySelectorAll("[data-action='resume']").forEach(btn => btn.addEventListener('click', () => this.events.emit(EVENTS.GAME_RESUME)))
+    document.querySelectorAll("[data-action='returnToMenu']").forEach(btn => btn.addEventListener('click', () => this.events.emit(EVENTS.GAME_RETURN_TO_MENU)))
+    document.querySelectorAll("[data-action]").forEach(btn => btn.addEventListener('mouseenter', () => this.events.emit(EVENTS.SOUND, 'button_hover')))
   }
 
   hideAllPanels() {
-    [this.mainMenuEl, this.pauseMenuEl, this.loadingScreenEl].forEach(p => p?.classList.remove('active'))
+    [this.mainMenuEl, this.pauseMenuEl, this.loadingScreenEl, this.gameOverMenuEl, this.missionCompleteMenuEl].forEach(p => p?.classList.remove('active'))
   }
 
   showPanel(panelId) {
@@ -47,5 +43,11 @@ export class UIManager {
     const mins = Math.floor(time / 60)
     const secs = Math.floor(time % 60)
     this.timerEl.textContent = `${mins}:${String(secs).padStart(2,'0')}`
+  }
+
+  updateHealthBar(health, maxHealth) {
+    if (!this.healthBarFillEl) return
+    const pct = Math.max(0, health / maxHealth)
+    this.healthBarFillEl.style.setProperty('--health-pct', pct)
   }
 }

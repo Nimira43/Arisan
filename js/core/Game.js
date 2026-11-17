@@ -7,6 +7,9 @@ import { AudioManager } from '../managers/AudioManager.js'
 import { UIManager } from '../managers/UIManager.js'
 import { EnemyManager } from '../managers/EnemyManager.js'
 import { EnemySpawner } from '../managers/EnemySpawner.js'
+import { CollisionSystem } from '../systems/ColisionSystem.js'
+import { CollisionManager } from '../managers/CollisionManager.js'
+import { missionData } from '../data/playerData.js'
 
 export class Game {
   constructor() {
@@ -18,17 +21,15 @@ export class Game {
     this.uiManager = new UIManager(this.events)
     this.enemyManager = new EnemyManager()
     this.enemySpawner = new EnemySpawner(this.enemyManager)
-
-    this.renderSystem = new RenderSystem(
-      this.canvas,
-      this.imageManager
-    )
-
+    this.renderSystem = new RenderSystem(this.canvas, this.imageManager)
+    this.collisionSystem = new CollisionSystem()
+    this.collisionManager = new CollisionManager(this.collisionSystem, this.events)
     this.player = new Player()
     this.keys = {}
     this.lastTime = 0;
     this.time = 0
     this.state = GAME_STATES.MENU
+    this.enemiesKilled = 0
     this.init()
   }
   
@@ -39,10 +40,27 @@ export class Game {
     ])
 
     this.events.on(EVENTS.SOUND, (name) => this.audioManager.play(name))
+    this.events.on(EVENTS.GAME_START, () => this.startGame())
     this.events.on(EVENTS.GAME_PAUSE, () => this.pause())
     this.events.on(EVENTS.GAME_RESUME, () => this.resume())
     this.events.on(EVENTS.GAME_RETURN_TO_MENU, () => this.returnToMenu())
-    this.events.on(EVENTS.GAME_START, () => this.startGame())
+    this.events.on(EVENTS.MISSION_COMPLETE, () => this.missionComplete())
+    
+    this.events.on(EVENTS.PLAYER_DAMAGED, (health, maxHealth) => {
+      this.events.emit(EVENTS.SOUND, 'player_hurt')
+      this.uiManager.updateHealthBar(health, maxHealth)
+    })
+    
+    this.events.on(EVENTS.PLAYER_DIED, () => {
+      this.events.emit(EVENTS.SOUND, 'game_over')
+      this.gameOver()
+    })
+    
+    this.events.on(EVENTS.ENEMY_DIED, () => {
+      this.enemiesKilled++
+      this.events.emit(EVENTS.ENEMY_KILLED_COUNT, this.enemiesKilled)
+      this.checkMissionConditions()
+    })
 
     this.uiManager.showPanel('mainMenu')
 
@@ -61,19 +79,22 @@ export class Game {
     if (this.state === GAME_STATES.PLAYING) {
       this.time += dt
       this.uiManager.updateTimer(this.time)
+      this.checkMissionConditions()
     }
 
-    this.update(dt)
-    this.renderSystem.render(this.state, this.player, this.enemyManager.getActiveEnemies())
+    const activeEnemies = this.enemyManager.getActiveEnemies()
+    this.update(dt, activeEnemies)
+    this.renderSystem.render(this.state, this.player, activeEnemies)
     requestAnimationFrame((t) => this.gameLoop(t))
   }
 
-  update(dt) {
+  update(dt, activeEnemies) {
     if (this.state !== GAME_STATES.PLAYING) return
 
     this.player.update(dt, this.keys)
     this.enemyManager.update(dt, this.player)
     this.enemySpawner.update(dt)
+    this.collisionManager.update(this.player, activeEnemies)
   }
 
   setupInput() {
@@ -106,12 +127,12 @@ export class Game {
     this.state = GAME_STATES.PLAYING
     this.uiManager.hideAllPanels()
     this.time = 0
+    this.enemiesKilled = 0
     this.uiManager.showHUD()
-  
     this.player.reset()
     this.enemyManager.reset()
     this.enemySpawner.reset()
-
+    this.uiManager.updateHealthBar(this.player.health, this.player.maxHealth)
     this.lastTime = performance.now()
   }
 
@@ -135,6 +156,12 @@ export class Game {
     this.uiManager.showPanel('mainMenu')
   }
 
+  gameOver() {
+    this.state = GAME_STATES.GAME_OVER
+    this.uiManager.hideHUD()
+    this.uiManager.showPanel('gameOverMenu')
+  }
+
   resizeCanvas() {
     let w
     let h
@@ -156,5 +183,19 @@ export class Game {
     this.canvas.style.width = w + 'px'
     this.canvas.style.height = h + 'px'
     this.canvas.style.margin = `${CANVAS_MARGIN}px`
+  }
+
+  checkMissionConditions() {
+    if (this.state !== GAME_STATES.PLAYING) return
+    if (this.enemiesKilled >= missionData.killCount || this.time >= missionData.surviveTime) {
+      this.events.emit(EVENTS.MISSION_COMPLETE)
+    }
+  }
+
+  missionComplete() {
+    this.state = GAME_STATES.MISSION_COMPLETE
+    this.uiManager.hideHUD()
+    this.uiManager.showPanel('missionCompleteMenu')
+    this.events.emit(EVENTS.SOUND, 'mission_complete')
   }
 }

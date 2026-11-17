@@ -21,6 +21,10 @@ export const audioData = [
   },
   {
     name: 'game_over',
-    path: './audio/game_over.mp3'
+    path: './audio/game_over.wav'
+  },
+  {
+    name: 'mission_complete',
+    path: './audio/mission_complete.mp3'
   },
 ]

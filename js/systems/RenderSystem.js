@@ -23,6 +23,10 @@ export class RenderSystem {
   renderPlayer(player) {
     const playerImage = this.imageManager.get('player')
 
+    if (player.invincible) {
+      this.ctx.globalAlpha = 0.1 + 0.8 * Math.abs(Math.sin(player.invincibilityTimer * 10))
+    }
+
     if (playerImage) {
       this.ctx.drawImage(playerImage, player.x, player.y, player.width, player.height)
     } else {
@@ -31,6 +35,7 @@ export class RenderSystem {
       this.ctx.strokeStyle = '#fff'
       this.ctx.strokeRect(player.x, player.y, player.width, player.height)
     }
+    this.ctx.globalAlpha = 1
   }
 
   renderEnemies(enemies) {
