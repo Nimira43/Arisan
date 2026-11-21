@@ -8,7 +8,9 @@ export const enemyData = {
     collisionRadius: 24,
     behaviourType: 'drift',
     colour: '#ff4444',
-    image: 'enemy_drifter'
+    image: 'enemy_drifter',
+    pushbackForce: 0,
+    pushbackImmune: true
   },
   seeker: {
     width: 38,
@@ -19,6 +21,8 @@ export const enemyData = {
     collisionRadius: 28,
     behaviourType: 'seek',
     colour: '#ff8844',
-    image: 'enemy_seeker'
+    image: 'enemy_seeker',
+    pushbackForce: 0,
+    pushbackImmune: true
   }
 }
